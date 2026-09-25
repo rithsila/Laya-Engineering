@@ -1,0 +1,5 @@
+laya-coreml>=0.1.0
+huggingface-hub>=0.34
+pytest>=8.0
+typesafe-sdk>=0.7.0
+python-dotenv>=1.0.0
