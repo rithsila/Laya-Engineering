@@ -1,6 +1,6 @@
 # Laya + JEV Hybrid Decision System
 
-Fast local typed decisions on Apple Silicon Mac using **Laya-CoreML** (System 1) combined with **JEV / TypeSafe AI** (System 2) and **Codex / ChatGPT**.
+Fast local typed decisions on Apple Silicon Mac using **Laya-MLX** (System 1) combined with **JEV / TypeSafe AI** (System 2) and **Codex / ChatGPT**.
 
 - For full test commands and expected outputs, see [TESTING.md](TESTING.md).
 - For in-depth theory and prompt rules, see [GUIDELINES.md](GUIDELINES.md).
@@ -104,7 +104,7 @@ Laya-engineer-codex/
 ├── models/ane/               # Local Apple Neural Engine model files
 ├── laya-codex-demo/
 │   ├── .env                  # TYPESAFE_API_KEY
-│   ├── agent.py              # Laya CoreML local wrapper
+│   ├── agent.py              # Laya MLX local wrapper
 │   ├── jev_client.py         # JEV / TypeSafe Cloud client
 │   ├── hybrid.py             # Hybrid router (Laya -> JEV Cloud)
 │   ├── server.py             # Fast HTTP server (port 8080)

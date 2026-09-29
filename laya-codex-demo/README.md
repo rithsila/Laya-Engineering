@@ -1,6 +1,6 @@
 # Laya + JEV Hybrid Decision System
 
-Fast local typed decisions on Apple Silicon Mac using **Laya-CoreML** (System 1) combined with **JEV / TypeSafe AI** (System 2) and **Codex / ChatGPT**.
+Fast local typed decisions on Apple Silicon Mac using **Laya-MLX** (System 1) combined with **JEV / TypeSafe AI** (System 2) and **Codex / ChatGPT**.
 
 For the in-depth architectural guide and prompting rules, see [GUIDELINES.md](GUIDELINES.md).
 
@@ -54,7 +54,7 @@ source .venv/bin/activate
 uv pip install -r laya-codex-demo/requirements.txt
 
 # 3. Download the Apple Neural Engine model (download once, runs 100% offline)
-python3 -c "from huggingface_hub import snapshot_download; snapshot_download('aac6fef/laya-multilingual-coreml-ane', local_dir='models/ane')"
+python3 -c "from huggingface_hub import snapshot_download; snapshot_download('aac6fef/laya-multilingual-mlx', local_dir='models/mlx')"
 
 # 4. Add your JEV API key
 echo "TYPESAFE_API_KEY=your_key_here" > laya-codex-demo/.env
@@ -94,10 +94,10 @@ curl -s -X POST http://127.0.0.1:8080/decide -d '{"ticket":"Database connection 
 Laya-engineer-codex/
 ├── GUIDELINES.md             # In-depth Jev Engineering guide & 7 rules
 ├── README.md                 # Project quickstart and overview
-├── models/ane/               # Local Apple Neural Engine model files (375 MB)
+├── models/mlx/               # Local Apple Neural Engine model files (375 MB)
 ├── laya-codex-demo/
 │   ├── .env                  # JEV / TypeSafe API key
-│   ├── agent.py              # Laya CoreML local wrapper (Choice, Score, Noul)
+│   ├── agent.py              # Laya MLX local wrapper (Choice, Score, Noul)
 │   ├── jev_client.py         # JEV / TypeSafe Cloud API client
 │   ├── hybrid.py             # Hybrid router (Laya reflex -> JEV cloud)
 │   ├── main.py               # Ticket triage demo with interactive mode
@@ -113,5 +113,5 @@ Laya-engineer-codex/
 
 - [What is Jev Engineering? (Made with Jev)](https://madewithjev.com/what-is-jev-engineering)
 - [Jev Engineering 101 (Craft Better Software)](https://craftbettersoftware.com/p/jev-engineering-101)
-- [Laya CoreML GitHub Repository](https://github.com/mizorewww/laya-coreml)
+- [Laya MLX GitHub Repository](https://github.com/mizorewww/laya-mlx)
 - [TypeSafe AI Console](https://console.typesafe.ai)

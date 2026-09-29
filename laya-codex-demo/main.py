@@ -1,4 +1,4 @@
-"""Support ticket triage demo using Laya-CoreML typed decisions."""
+"""Support ticket triage demo using Laya-MLX typed decisions."""
 
 import argparse
 import time
@@ -55,7 +55,7 @@ def triage_ticket(ticket_text: str):
     print("=" * 60)
     print(f"Ticket: {ticket_text}")
     print("-" * 60)
-    print(f"Decision Time : {elapsed_ms:.2f} ms (Apple Silicon Neural Engine)")
+    print(f"Decision Time : {elapsed_ms:.2f} ms (Apple Silicon MLX)")
     print(f"Department    : {dept.upper()} (prob: {dept_prob:.2%})")
     print(f"Urgency Score : {urgency:.2f} / 2.00 (probs: low={urg_prob.get('0',0):.2f}, med={urg_prob.get('1',0):.2f}, high={urg_prob.get('2',0):.2f})")
     print(f"Escalate      : {'YES' if escalate else 'NO'} (escalation prob: {esc_prob:.2%})")
@@ -65,7 +65,7 @@ def triage_ticket(ticket_text: str):
 
 def interactive_loop():
     """Keep model loaded in memory so every decision takes only ~20-30 ms."""
-    print("Interactive Mode Active! Model stays loaded in Neural Engine.")
+    print("Interactive Mode Active! Model stays loaded in MLX.")
     print("Type your ticket and press Enter (or type 'exit' to quit):\n")
     while True:
         try:
@@ -82,18 +82,18 @@ def interactive_loop():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Laya CoreML Ticket Triage Demo")
+    parser = argparse.ArgumentParser(description="Laya MLX Ticket Triage Demo")
     parser.add_argument("--ticket", type=str, help="Custom ticket text to evaluate")
     parser.add_argument(
         "-i", "--interactive", action="store_true", help="Keep model in memory for instant decisions"
     )
     args = parser.parse_args()
 
-    print("\nWarmup / Loading Laya CoreML Agent into Apple Silicon Neural Engine...")
+    print("\nWarmup / Loading Laya MLX Agent into Apple Silicon MLX...")
     t0 = time.perf_counter()
     get_agent()
     load_ms = (time.perf_counter() - t0) * 1000
-    print(f"Model loaded into Neural Engine in {load_ms:.0f} ms.\n")
+    print(f"Model loaded into MLX in {load_ms:.0f} ms.\n")
 
     if args.ticket:
         triage_ticket(args.ticket)

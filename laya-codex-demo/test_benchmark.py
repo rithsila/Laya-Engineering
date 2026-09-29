@@ -29,7 +29,7 @@ TEST_CASES = [
 
 
 def run_benchmark():
-    print("\nWarmup: Loading Apple Neural Engine model...")
+    print("\nWarmup: Loading Apple Silicon MLX model...")
     get_agent()
     print("Model ready. Running Cooperation Benchmark (5 test cases)...\n")
 

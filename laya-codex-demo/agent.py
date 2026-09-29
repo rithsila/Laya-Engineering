@@ -1,11 +1,11 @@
-"""Laya CoreML Agent wrapper for Jev-style typed decisions."""
+"""Laya MLX Agent wrapper for Jev-style typed decisions."""
 
 import os
 import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
-import laya_coreml as laya
+import laya_mlx as laya
 
 _CACHED_AGENT = None
 _CACHED_MODEL_PATH = None
@@ -16,32 +16,30 @@ def find_model_path(preferred_path: Optional[str] = None) -> str:
     candidates = [
         preferred_path,
         os.environ.get("LAYA_MODEL_PATH"),
+        "./models/mlx",
+        "../models/mlx",
+        "models/mlx",
+        str(Path(__file__).resolve().parent / "models" / "mlx"),
+        str(Path(__file__).resolve().parent.parent / "models" / "mlx"),
         "./models/ane",
         "../models/ane",
         "models/ane",
-        str(Path(__file__).resolve().parent / "models" / "ane"),
-        str(Path(__file__).resolve().parent.parent / "models" / "ane"),
     ]
     for candidate in candidates:
         if candidate and Path(candidate).is_dir():
             return str(Path(candidate).resolve())
-    return "aac6fef/laya-multilingual-coreml-ane"
+    return "aac6fef/laya-multilingual-mlx"
 
 
-def get_agent(model_path: Optional[str] = None, local_files_only: Optional[bool] = None):
-    """Load or return cached Laya CoreML agent."""
+def get_agent(model_path: Optional[str] = None):
+    """Load or return cached Laya MLX agent."""
     global _CACHED_AGENT, _CACHED_MODEL_PATH
     target_path = find_model_path(model_path)
     
     if _CACHED_AGENT is not None and _CACHED_MODEL_PATH == target_path:
         return _CACHED_AGENT
 
-    # If target_path is local dir, local_files_only can be True
-    is_local_dir = Path(target_path).is_dir()
-    if local_files_only is None:
-        local_files_only = is_local_dir
-
-    _CACHED_AGENT = laya.load(target_path, local_files_only=local_files_only)
+    _CACHED_AGENT = laya.load(target_path)
     _CACHED_MODEL_PATH = target_path
     return _CACHED_AGENT
 
@@ -63,7 +61,6 @@ class DecisionResult(dict):
             elif qtype == "score":
                 val = ans.get("score")
             elif qtype == "noul":
-                # noul is probability of True
                 val = bool(ans.get("noul", 0.0) >= 0.5)
             else:
                 val = ans
@@ -79,20 +76,19 @@ def decide(
     state: Union[str, Dict[str, Any]],
     questions: Dict[str, Dict[str, Any]],
     model_path: Optional[str] = None,
-    local_files_only: Optional[bool] = None,
+    **kwargs: Any,
 ) -> DecisionResult:
-    """Make typed decisions from a state text/dict using Laya-CoreML.
+    """Make typed decisions from a state text/dict using Laya-MLX.
 
     Args:
         state: Context text or dictionary state
         questions: Questions dict (choice, score, noul)
-        model_path: Local path or HF repo ID (default: ANE model)
-        local_files_only: Require local files only (default: True for local folders)
+        model_path: Local path or HF repo ID (default: MLX model)
 
     Returns:
         DecisionResult dict with values, probabilities, and usage.
     """
-    agent = get_agent(model_path=model_path, local_files_only=local_files_only)
+    agent = get_agent(model_path=model_path)
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=RuntimeWarning)
         raw = agent.predict(state, questions)
